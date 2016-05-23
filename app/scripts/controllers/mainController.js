@@ -1,7 +1,14 @@
 angular.module('ethExplorer')
     .controller('mainCtrl', function ($rootScope, $scope, $location) {
 
-        $scope.blockNum = web3.eth.blockNumber;
+        // Display & update block list
+        updateBlockList();
+        web3.eth.filter("latest", function(error, result){
+          if (!error) {
+            updateBlockList();
+            $scope.$apply();
+          }
+        });
 
         $scope.processRequest= function(){
             var requestStr = $scope.ethRequest;
@@ -50,8 +57,17 @@ angular.module('ethExplorer')
             $location.path('/address/'+requestStr);
         }
 
-         function goToTxInfos (requestStr){
+        function goToTxInfos (requestStr){
              $location.path('/transaction/'+requestStr);
+        }
+
+        function updateBlockList() {
+            var currentBlockNumber = web3.eth.blockNumber;
+
+            $scope.blocks = [];
+            for (var i=0; i < 10 && currentBlockNumber - i >= 0; i++) {
+              $scope.blocks.push(web3.eth.getBlock(currentBlockNumber - i));
+            }
         }
 
     });

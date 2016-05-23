@@ -1,9 +1,42 @@
 <div class="container" style="padding-top: 50px;">
 
-    <h1 style="text-align:center;">Welcome to the Etherparty Block Explorer!</h1>
+    <h1 style="text-align:center;">Ethereum Block Explorer</h1>
 
-    <h4 style="text-align:center; margin-top: 30px;">
-      <a href="/#/block/{{blockNum}}">Latest Block: {{blockNum}}</a>
-    </h4>
+    <br />
+
+    <table class="table table-striped">
+        <thead>
+            <td>
+                Block number
+            </td>
+            <td>
+                Date
+            </td>
+            <td>
+                Transactions
+            </td>
+            <td>
+                Gas used
+            </td>
+        </thead>
+        <tbody>
+            <tr ng-repeat="block in blocks">
+                <td>
+                    <a href="/#/block/{{ block.number }}">
+                        {{ block.number }}
+                    </a>
+                </td>
+                <td>
+                    {{ block.timestamp * 1000 | date:'medium' }}
+                </td>
+                <td>
+                    {{ block.transactions.length }}
+                </td>
+                <td>
+                    {{ block.gasUsed }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
 </div>
